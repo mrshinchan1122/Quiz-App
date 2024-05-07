@@ -5,6 +5,23 @@ const sectionHOME = document.getElementById('sectionHOME');
 const startQuiz = document.getElementById('startQuiz');
 const submitBtn = document.getElementById('submitBtn');
 
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Disable inspect element and other key combinations
+document.onkeydown = function(e) {
+    if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || 
+        (e.ctrlKey && e.shiftKey && e.key === "C") || 
+        (e.ctrlKey && e.shiftKey && e.key === "J") || 
+        (e.ctrlKey && e.key === "U") || 
+        (e.ctrlKey && e.key === "P") || 
+        (e.ctrlKey && e.key === "S")) {
+        return false;
+    }
+};
+
 getStartedBtn.addEventListener('click', () => {
     guide.style.display='flex';
     sectionHOME.style.display='none';
@@ -67,19 +84,6 @@ document.getElementById('quizForm').addEventListener('submit', function (event) 
 });
 
 
-
-// window.addEventListener('beforeunload', function (e) {
-//     var confirmationMessage = 'Are you sure you want to leave this page? Your progress will be lost.';
-//     e.preventDefault();
-//     e.returnValue = confirmationMessage;
-//     return confirmationMessage;
-// });
-
-// document.addEventListener('contextmenu', function(e) {
-//     e.preventDefault();
-// });
-  
-
 //---------------------------- Camera js-----------------------//
 
 // Function to start the webcam
@@ -105,7 +109,7 @@ document.getElementById("startQuiz").addEventListener("click", function() {
 let isFullScreen = false;
 
 // Function to request fullscreen
-function requestFullScreen() {
+function openFullScreen() {
     const element = document.documentElement;
     if (element.requestFullscreen) {
         element.requestFullscreen();
@@ -119,26 +123,46 @@ function requestFullScreen() {
     // Update fullscreen flag
     isFullScreen = true;
 }
+console.log(isFullScreen);
 
 // Event listener for clicking the start quiz button
-$("#startQuiz").click(function() {
-    requestFullScreen();
-});
+// $("#startQuiz").click(function() {
+//     requestFullScreen();
+// });
 
-// Event listener for fullscreen change
-document.addEventListener("fullscreenchange", function () {
-    // Check if exiting fullscreen
+$(document).on("fullscreenchange", function () {
     if (!document.fullscreenElement && isFullScreen) {
-        // Show alert and redirect
         const confirmSubmit = window.confirm("Exited Quiz. Click OK to submit.");
         if (confirmSubmit) {
             window.location.href = "result.html";
         } else {
-            // Re-enter fullscreen
-            requestFullScreen();
+            // Re-enable fullscreen mode
+            openFullScreen();
         }
     }
 });
+
+// Trigger the same behavior when the user exits fullscreen without clicking the button
+$(document).mouseleave(function() {
+    if (!document.fullscreenElement && isFullScreen) {
+        const confirmSubmit = window.confirm("Exited Quiz. Click OK to submit.");
+        if (confirmSubmit) {
+            window.location.href = "result.html";
+        } else {
+            // Re-enable fullscreen mode
+            openFullScreen();
+        }
+    }
+});
+
+// Ensure that the fullscreen behavior is important
+$(document).ready(function() {
+    $("body").css("fullscreenchange", "important");
+});
+
+
+
+
 
 // Event listener for the submit button
 $("#submitBtn").click(function() {
@@ -155,19 +179,35 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-// Disable right-click context menu
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
+//----------------------------- Custom Alert ----------------------------//
+// Function to show the custom alert dialog
+function showCustomAlert() {
+    $('#customAlert').show();
+}
+
+// Function to hide the custom alert dialog
+function hideCustomAlert() {
+    $('#customAlert').hide();
+}
+
+// Event listener for fullscreen change
+$(document).on("fullscreenchange", function () {
+    if (!document.fullscreenElement && isFullScreen) {
+        showCustomAlert(); // Show the custom alert
+    }
 });
 
-// Disable inspect element and other key combinations
-document.onkeydown = function(e) {
-    if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || 
-        (e.ctrlKey && e.shiftKey && e.key === "C") || 
-        (e.ctrlKey && e.shiftKey && e.key === "J") || 
-        (e.ctrlKey && e.key === "U") || 
-        (e.ctrlKey && e.key === "P") || 
-        (e.ctrlKey && e.key === "S")) {
-        return false;
-    }
-};
+// Event listener for OK button click
+$('#confirmExit').on('click', function() {
+    hideCustomAlert(); // Hide the custom alert
+    window.location.href = "result.html"; // Proceed with the action
+});
+
+// Event listener for Cancel button click
+$('#cancelExit').on('click', function() {
+    hideCustomAlert(); // Hide the custom alert
+    requestFullScreen(); // Request fullscreen again
+});
+
+
+

@@ -37,12 +37,12 @@
                 <li>Before starting the quiz, make sure to allow access to your camera to enable monitoring during the entire test.</li>
                 <li>To maintain the integrity of the quiz, we enable your camera throughout the entire duration of the test.</li>
                 <li>If you exit the page during the quiz, you will be redirected to the result page.So please be sure you are not exiting from page</li>
-                <li>Enjoy the quiz and good luck!</li>
+                <li> If attempting to exit fullscreen mode, users will be prompted to submit the quiz first. Upon confirmation, they'll be redirected to the result page; otherwise, they'll remain in fullscreen mode to continue the quiz.</li>
             </ol>
             <div class="quizStart">
                 <p>Click the button below to start the quiz.</p>
                 <div><input type="checkbox" id="guidelinesCheckbox"><label for="guidelinesCheckbox">I have read and understood the guidelines</label></div>
-                <button class="custom-button" id="startQuiz" disabled>Start Quiz</button>
+                <button class="custom-button" id="startQuiz" disabled onclick="openFullScreen()">Start Quiz</button>
                 <!-- Webcam feed -->
                 <video id="webcamFeed" autoplay playsinline style="position: fixed; top: 10px; right: 10px; width: 200px;"></video>
                 <!-- Canvas (if needed) -->
@@ -124,6 +124,52 @@
                         <label><input type="radio" name="q10" value="c"> c) To create forms</label><br>
                     </li>
                 </ol>
+    <!----------------------code Editor------------------------->
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Live Code Editor</title>
+        <link rel="stylesheet" href="codeeditor.css">
+        <script src="https://kit.fontawesome.com/cbf1927bf0.js" crossorigin="anonymous"></script>
+            </head>
+                <body>
+
+                    <div class="container">
+                        <!-- Left part / coding part -->
+                        <div class="left">
+                            <P id="question">Q. Create a simple box that changes its background color when clicked using HTML, CSS, and JavaScript.</P>
+                            <label> <i class="fa-brands fa-html5" id="htmllogo"></i> HTML5</label>
+                            <textarea id="html-code" onkeyup="run()"></textarea>
+
+                            <label><i class="fa-brands fa-css3-alt" id="csslogo"></i> CSS</label>
+                            <textarea id="css-code" onkeyup="run()"></textarea>
+
+                            <label> <i class="fa-brands fa-js" id="jslogo"></i>JavaScript</label>
+                            <textarea id="js-code" onkeyup="run()"></textarea>
+                        </div>
+                        <!-- Right part/Output Part -->
+                        <div class="right">
+                            <label  id="outputlogo"><i class="fa-solid fa-play"></i>Output</label>
+                            <iframe id="output"></iframe>
+                        </div>
+                    </div>
+                <script>
+                    function run(){
+                    let htmlcode = document.getElementById("html-code").value;
+                    let csscode = document.getElementById("css-code").value;
+                    let jscode = document.getElementById("js-code").value;
+                    let output = document.getElementById("output");
+
+                    output.contentDocument.body.innerHTML = htmlcode + "<style>" + csscode + "</style>";
+                    output.contentWindow.eval(jscode);
+                    
+                }
+                </script>
+                </body>
+        </html>
+        
                 <div class="submit">
                     <input class="custom-button" type="submit" value="Submit">
                 </div> 
@@ -135,12 +181,16 @@
         </div>
     </div>
     <!-- ----------------------------- Script ----------------------------- -->
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="index.js"></script>
+    <script src="record.js"></script>
     <script src="result.js"></script>
+    <script>
+        
+    </script>
 </body>
 
 </html>

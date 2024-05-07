@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     // Display the score
-    document.getElementById("score").textContent = score;
+    document.getElementsByClassName("score").textContent = score;
     
     // Provide feedback based on the score
     let feedback = "";
@@ -30,36 +30,4 @@ document.addEventListener("DOMContentLoaded", function() {
         feedback = "Don't worry! Keep learning and try again.";
     }
     document.getElementById("feedback").textContent = feedback;
-});
-
-
-document.getElementById('quizForm').addEventListener('submit', function (event) {
-    // Prevent the default form submission behavior
-    event.preventDefault();
-
-    // Define the correct answers
-    var correctAnswers = ["b", "c", "a", "c", "b", "a", "c", "c", "b", "b"];
-    
-    // Initialize score
-    var score = 0;
-
-    // Iterate through each question and check the user's selected answer
-    for (var i = 1; i <= 10; i++) {
-        var userAnswer = document.querySelector('input[name="q' + i + '"]:checked');
-        
-        if (userAnswer) {
-            // If user answered the question, check if it's correct
-            if (userAnswer.value === correctAnswers[i - 1]) {
-                score++; // Increment score for correct answer
-            }
-        }
-    }
-
-    // Display the score
-    var resultContainer = document.getElementById('result');
-    resultContainer.innerHTML = "Your score: " + score + "/10";
-    resultContainer.style.display = "block";
-
-    // Hide the submit button after submission
-    document.getElementById('submitBtn').style.display = 'none';
 });
