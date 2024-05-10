@@ -160,6 +160,30 @@ $(document).ready(function() {
     $("body").css("fullscreenchange", "important");
 });
 
+// Event listener for quiz submission
+document.getElementById('quizForm').addEventListener('submit', function (event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Initialize an array to store user's selected answers
+    let userAnswers = [];
+
+    // Loop through all radio button inputs
+    document.querySelectorAll('input[type="radio"]').forEach(function (input) {
+        // Check if the input is checked
+        if (input.checked) {
+            // Push the value of the checked input to the userAnswers array
+            userAnswers.push(input.value);
+        }
+    });
+
+    // Store the user's selected answers in local storage
+    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+
+    // Redirect to the result page
+    window.location.href = 'result.html';
+});
+
 
 
 

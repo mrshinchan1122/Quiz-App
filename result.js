@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     // Display the score
-    document.getElementsByClassName("score").textContent = score;
+    document.getElementById("score").textContent = score;
     
     // Provide feedback based on the score
     let feedback = "";
